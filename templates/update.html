@@ -1,0 +1,14 @@
+<!DOCTYPE html> {% extends "bootstrap/base.html" %} {% block title %}TOPページ{% endblock %} {% block content %}
+<div class="container">
+    <h1>更新ページ</h1>
+    <form method="POST">
+        <label for="title" class="form-label">タイトル</label>
+        <input type="text" name="title" class="form-label" value="{{ post.title }}">
+
+        <label for="body" class="form-label">内容</label>
+        <input type="text" name="body" class="form-label" value="{{ post.body }}">
+
+        <input type="submit" value="更新">
+    </form>
+</div>
+{% endblock %}
