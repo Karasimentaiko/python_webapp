@@ -1,0 +1,8 @@
+<!DOCTYPE html> {% extends "bootstrap/base.html" %} {% block title %}TOPページ{% endblock %} {% block content %}
+<div class="container">
+    <h1>メインページ</h1>
+    <a href="/sigup" role="button"><button type="button" class="btn btn-outline-info">新規登録画面</button></a>
+    <a href="/login" role="button"><button type="button" class="btn btn-outline-info">ログイン</button></a> {% for post in posts %}
+    <p>ここはメインページです</p>
+</div>
+{% endfor %} {% endblock %}
