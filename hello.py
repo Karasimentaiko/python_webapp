@@ -40,7 +40,12 @@ class User(UserMixin, db.Model):
 def loag_user(user_id):
     return User.query.get(int(user_id))
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
+def main():
+    return render_template('main.html')
+
+
+@app.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
     if request.method == 'GET':
@@ -58,7 +63,7 @@ def create():
         post =  Post(title=title, body=body)
         db.session.add(post)
         db.session.commit()
-        return redirect('/')
+        return redirect('/index')
     
     else:
         return render_template('create.html')
@@ -84,12 +89,21 @@ def login():
         username = request.form.get('username')
         password = request.form.get('password')
         
-        user =  User.query.filter_by(username=username).first()
+        #ユーザー名がデータベースに存在するか？
+        if User.query.filter_by(username=username).first():
+            user =  User.query.filter_by(username=username).first()
+            #パスワード認証
+            if check_password_hash( user.password, password):
+                login_user(user)
+                return redirect('/index')
+            else:
+                #パスワードが違った場合
+                return redirect('/login')
+                
+        else:
+            #データベースになければ新規作成画面にリダイレクト
+            return redirect('/sigup')
         
-        if check_password_hash( user.password, password):
-            login_user(user)
-            return redirect('/')
-    
     else:
         return render_template('login.html')
 
@@ -112,7 +126,7 @@ def update(id):
         post.body = request.form.get('body')
         
         db.session.commit()
-        return redirect('/')
+        return redirect('/index')
 
 @app.route('/<int:id>/delete', methods=['GET'])
 @login_required
@@ -121,4 +135,4 @@ def delete(id):
     
     db.session.delete(post)
     db.session.commit()
-    return redirect('/')
+    return redirect('/index')

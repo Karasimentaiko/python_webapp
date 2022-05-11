@@ -1,14 +1,21 @@
 <!DOCTYPE html> {% extends "bootstrap/base.html" %} {% block title %}TOPページ{% endblock %} {% block content %}
 <div class="container">
     <h1>ブログアプリケーション</h1>
-    <a href="/create" role="button">新規作成画面</a>
-    <a href="/logout" role="button">ログアウト</a> {% for post in posts %}
+    <a href="/create" role="button"><button type="button" class="btn btn-primary">新規作成画面</button></a>
+    <a href="/logout" role="button"><button type="button" class="btn btn-secondary">ログアウト</button></a>
+</div>
+{% for post in posts %}
+<div class="card">
     <article>
-        <h2>{{ post.title }}</h2>
-        <a href="/{{ post.id }}/update" role="button">編集</a>
-        <a href="/{{ post.id }}/delete" role="button">削除</a>
-        <p>作成日時: {{ post.created_at }}</p>
-        <p>{{ post.body }}</p>
+        <div class="card-header">
+            <h2>{{ post.title }}</h2>
+        </div>
+        <div class="card-body">
+            <p>作成日時: {{ post.created_at }}</p>
+            <p>{{ post.body }}</p>
+            <a href="/{{ post.id }}/update" role="button"><button type="button" class="btn btn-warning">編集</button></a>
+            <a href="/{{ post.id }}/delete" role="button"><button type="button" class="btn btn-danger">削除</button></a>
+        </div>
     </article>
 </div>
 {% endfor %} {% endblock %}
